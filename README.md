@@ -37,3 +37,4 @@ Paste the full contents of each JSON file as the prompt. Use the same tool and t
 - Tool: Google Gemini (images: Nano Banana, video: Veo), same chat for images 1-3 for consistency.
 - Video was animated from `outputs/video_start_frame.png` (an earlier, medium-shot draft of Image 3) rather than Image 1; Veo output was 10 s, trimmed to 5 s to match `duration_seconds`.
 - Gemini adds a visible watermark regardless of the `avoid` list (a prompting limit, not a prompt error).
+- Image 2 was generated in a fresh Gemini chat (the original chat wasn't available), so the house and framing differ from Image 1; the one-field change is `setting.time_of_day`.
