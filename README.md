@@ -38,3 +38,22 @@ Paste the full contents of each JSON file as the prompt. Use the same tool and t
 - Video was animated from `outputs/video_start_frame.png` (an earlier, medium-shot draft of Image 3) rather than Image 1; Veo output was 10 s, trimmed to 5 s to match `duration_seconds`.
 - Gemini adds a visible watermark regardless of the `avoid` list (a prompting limit, not a prompt error).
 - Image 2 was generated in a fresh Gemini chat (the original chat wasn't available), so the house and framing differ from Image 1; the one-field change is `setting.time_of_day`.
+
+## Assignment note
+
+**Objective.** Learn how structured JSON prompts give fine-grained control over AI image and video generation: build one reusable template, then change exactly one field per output and observe what that field controls.
+
+**Why JSON over a plain-text prompt.** Each visual decision (subject, place, time, light, lens, palette, what to avoid) lives in its own named field. That makes the prompt reusable, easy to version in Git, and testable like code: change one key, compare the outputs, and you know what that key does.
+
+**What worked**
+- Specific cultural detail (Chettinad kandangi sari, white rice-flour pulli kolam, Mylapore row house, Margazhi month) produced an authentic Tamil scene instead of a generic "Indian" postcard.
+- The `avoid` list kept common clichés out: no coloured rangoli, no silk wedding saree, no posed smile at the camera.
+- Writing `lighting` as "natural available light for the time of day" let `time_of_day` drive the light by itself, so Image 2 stays a one-field change.
+
+**Limitations observed**
+- **Consistency across generations:** the model does not keep the same person and house between separate requests. Image 2 came from a fresh chat and shows a different house. A fixed seed or a reference image is needed for strict comparisons.
+- **The `avoid` list is not absolute:** Gemini adds a visible watermark even though "watermark" is in the avoid list.
+- **Video duration:** Veo produced 10 s regardless of `duration_seconds`, so the clip was trimmed to 5 s afterwards.
+- **Shot size drift:** the first "close-up" attempt came out as a medium shot and needed a regeneration.
+
+**Key takeaway.** JSON prompting turns image generation into a controlled experiment: the template is the baseline, each field is a variable, and the outputs are the results. Reproducibility still depends on the tool (seeds, reference images), not on the prompt alone.
